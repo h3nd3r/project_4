@@ -1,5 +1,8 @@
 import os
 import chainlit as cl
+import pdb
+from langfuse.decorators import observe
+from langfuse.openai import AsyncOpenAI
 
 class Agent:
     """
@@ -40,6 +43,7 @@ class Agent:
             "temperature": 0.2
         }
 
+    @observe
     async def execute(self, message_history):
         """
         Executes the agent's main functionality.
@@ -63,8 +67,9 @@ class Agent:
 
         function_name = ""
         arguments = ""
+
         async for part in stream:
-            print("PART IN STREAM")
+            #print("PART IN STREAM")
             if part.choices[0].delta.tool_calls:
                 tool_call = part.choices[0].delta.tool_calls[0]
                 function_name_delta = tool_call.function.name or ""
@@ -76,6 +81,7 @@ class Agent:
             if token := part.choices[0].delta.content or "":
                 await response_message.stream_token(token)     
 
+        #pdb.set_trace()
         if function_name:
             print("DEBUG: function_name:")
             print("type:", type(function_name))
