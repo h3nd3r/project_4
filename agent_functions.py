@@ -12,6 +12,7 @@ load_dotenv()
 #@traceable
 @observe
 async def call_implementation_agent(client, message_history):
+    print("call_implementation_agent() called")
     implementation_agent = ImplementationAgent(name="Implementation Agent", client=client)
     response_message = await implementation_agent.execute(message_history)
     return response_message

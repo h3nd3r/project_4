@@ -1,13 +1,13 @@
 /* General Styles */
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: #ffffff;
+    line-height: 1.6;
+    background-color: pink;
 }
 
-/* Header */
 header {
     display: flex;
     justify-content: space-between;
@@ -16,29 +16,32 @@ header {
     background-color: #fff;
 }
 
-header .logo {
+.logo {
     font-size: 24px;
     font-weight: bold;
 }
 
-header nav a {
-    margin-left: 20px;
+nav ul {
+    list-style-type: none;
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
     text-decoration: none;
-    color: #000;
-    font-weight: bold;
+    color: #333;
 }
 
 /* Hero Section */
 .hero {
     text-align: center;
     padding: 100px 20px;
-    position: relative;
-    overflow: hidden;
+    background: url('background-shapes.png') no-repeat center center;
+    background-size: cover;
 }
 
 .hero h1 {
     font-size: 48px;
-    font-weight: bold;
     margin-bottom: 20px;
 }
 
@@ -47,68 +50,35 @@ header nav a {
     margin-bottom: 40px;
 }
 
-.hero .cta {
-    padding: 15px 30px;
+.hero button {
+    padding: 10px 20px;
+    font-size: 16px;
     background-color: #000;
     color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: 25px;
 }
 
-.hero::before,
-.hero::after {
-    content: '';
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    background: url('abstract-shape.png') no-repeat;
-    background-size: cover;
-}
-
-.hero::before {
-    top: -50px;
-    left: -50px;
-}
-
-.hero::after {
-    bottom: -50px;
-    right: -50px;
-}
-
-/* Feature Section */
-.feature {
+/* Image Section */
+.image-section {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 100px 20px;
-    position: relative;
+    gap: 20px;
+    padding: 50px 20px;
 }
 
-.feature img {
+.image-section img {
     width: 200px;
-    margin: 0 10px;
-    position: relative;
-    z-index: 1;
-}
-
-.feature::before {
-    content: '';
-    position: absolute;
-    width: 300px;
-    height: 300px;
-    background: url('abstract-shape.png') no-repeat;
-    background-size: cover;
-    top: -50px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 0;
+    height: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* How It Works Section */
 .how-it-works {
     text-align: center;
-    padding: 100px 20px;
+    padding: 50px 20px;
 }
 
 .how-it-works h2 {
@@ -116,56 +86,67 @@ header nav a {
     margin-bottom: 20px;
 }
 
-.how-it-works .steps {
+.steps {
     display: flex;
-    justify-content: space-around;
-    margin-top: 40px;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
 }
 
-.how-it-works .step {
-    width: 30%;
+.step {
+    max-width: 300px;
 }
 
-.how-it-works .step h3 {
+.step h3 {
     font-size: 24px;
     margin-bottom: 10px;
 }
 
-.how-it-works .step p {
+.step p {
     font-size: 16px;
 }
 
-.how-it-works .cta {
+.how-it-works button {
     margin-top: 40px;
-    padding: 15px 30px;
+    padding: 10px 20px;
+    font-size: 16px;
     background-color: #000;
     color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: 25px;
 }
 
 /* Footer */
 footer {
     text-align: center;
-    padding: 40px 20px;
+    padding: 20px;
     background-color: #f8f8f8;
 }
 
-footer .logo {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
+footer nav ul {
+    justify-content: center;
+    gap: 20px;
 }
 
 footer p {
+    margin-top: 10px;
     font-size: 14px;
-    margin-bottom: 10px;
+    color: #777;
 }
 
-footer nav a {
-    margin: 0 10px;
-    text-decoration: none;
-    color: #000;
-    font-weight: bold;
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 36px;
+    }
+
+    .steps {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .image-section {
+        flex-direction: column;
+    }
 }

@@ -68,15 +68,25 @@ class Agent:
         function_name = ""
         arguments = ""
 
+        functions_called = {} # {index: {function_name: arguments}}
         async for part in stream:
-            #print("PART IN STREAM")
             if part.choices[0].delta.tool_calls:
                 tool_call = part.choices[0].delta.tool_calls[0]
+
+                tool_call_index = tool_call.index
                 function_name_delta = tool_call.function.name or ""
                 arguments_delta = tool_call.function.arguments or ""
-                
+                function_name = functions_called.get(tool_call_index, {}).get("function_name", "")
+                arguments = functions_called.get(tool_call_index, {}).get("arguments", "")
                 function_name += function_name_delta
                 arguments += arguments_delta
+
+                functions_called.update({
+                    tool_call_index: {
+                        "function_name": function_name,
+                        "arguments": arguments
+                    }
+                })
         
             if token := part.choices[0].delta.content or "":
                 await response_message.stream_token(token)     

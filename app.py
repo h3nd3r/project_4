@@ -128,7 +128,7 @@ async def on_message(message: cl.Message):
                     result = "Unknown result"
                 
                 #pdb.set_trace()
-                message_history.append({"role": "system", "content": result.content}) # should this be system or assistant?
+                message_history.append({"role": "system", "content": result}) # should this be system or assistant?
                 response_message = await generate_response(client, message_history, gen_kwargs)
                 
                 print("response_message: \"", response_message.content, "\"")
