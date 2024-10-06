@@ -18,7 +18,7 @@ from langfuse.openai import AsyncOpenAI
 client = AsyncOpenAI()
 
 gen_kwargs = {
-    "model": "gpt-4o",
+    "model": "gpt-4o-mini-2024-07-18",
     "temperature": 0.2
 }
 
@@ -89,7 +89,7 @@ async def on_message(message: cl.Message):
         with open(images[0].path, "rb") as f:
             base64_image = base64.b64encode(f.read()).decode('utf-8')
         message_history.append({
-            "role": "user",
+            "role": message.author.lower(), # should be user
             "content": [
                 {
                     "type": "text",
@@ -103,16 +103,11 @@ async def on_message(message: cl.Message):
                 }
             ]
         })
-        '''
-                message_history.append({"role": "user", "content": message.content})
-                response_message = await generate_response(client, message_history, gen_kwargs)
-                message_history.append({"role": "assistant", "content": response_message.content})
-                cl.user_session.set("message_history", message_history)
-        '''
-
-    message_history.append({"role": "user", "content": message.content})
+    print(f"message.author: {message.author.lower()}")
+    message_history.append({"role": message.author.lower(), "content": message.content}) # should be user
     response_message = await generate_response(client, message_history, gen_kwargs)
-    message_history.append({"role": "assistant", "content": response_message.content})
+
+    message_history.append({"role": response_message.author.lower(), "content": response_message.content}) # could be assistant or system?
     cl.user_session.set("message_history", message_history)
 
     if "function" in response_message.content:
@@ -131,8 +126,9 @@ async def on_message(message: cl.Message):
                     result = await call_planning_agent(client, message_history)
                 else:
                     result = "Unknown result"
-                    
-                message_history.append({"role": "system", "content": result})
+                
+                #pdb.set_trace()
+                message_history.append({"role": "system", "content": result.content}) # should this be system or assistant?
                 response_message = await generate_response(client, message_history, gen_kwargs)
                 
                 print("response_message: \"", response_message.content, "\"")
@@ -141,6 +137,7 @@ async def on_message(message: cl.Message):
                 print("Error: Unable to parse the message as JSON")
                 json_message = None
 
+            #pdb.set_trace()
             message_history.append({"role": "user", "content": message.content})
             message_history.append({"role": "assistant", "content": response_message.content})
 
